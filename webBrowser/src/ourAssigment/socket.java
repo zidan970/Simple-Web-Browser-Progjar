@@ -1,7 +1,10 @@
 package ourAssigment;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
+import java.io.BufferedWriter;
 import java.io.DataInputStream;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.net.Socket;
 import java.net.UnknownHostException;
@@ -19,8 +22,10 @@ public class socket {
 	
 	
 	
-	public String command1() {
+	public String command1(String subdomain) {
 		try {
+			Subdomain=subdomain;
+			System.out.println(Subdomain);
 
 			Socket socket = new Socket (Domain, 80);
 
@@ -50,7 +55,7 @@ public class socket {
 			}
 
 			System.out.println("3");
-/*1*/		System.out.println(resp);
+/*1*/		//System.out.println(resp);
 			return resp;
 
 			
@@ -69,7 +74,7 @@ public class socket {
 	}
 	
 	
-public List<String> command2(String baru) {
+public List<String> command2(String baru,int command) {
 		
 		String[] arrOfStr = baru.split("a>");
 		String tmp="";
@@ -94,7 +99,7 @@ public List<String> command2(String baru) {
 		    	tmp1=tmp1.replace('>', ' ');
 		    	list1.add(tmp1);
 			    list2.add("empty....");
-			    System.out.println("url="+tmp1+" text="+"empty....");
+			    if(command==1)System.out.println("url="+tmp1+" text="+"empty....");
 		    }
 		    else {
 		    	String[] parts = tmp1.split(">", 2);
@@ -103,13 +108,13 @@ public List<String> command2(String baru) {
 		    		parts[0] = parts[0].substring(0, parts[0].indexOf('"'));
 		    		list1.add(parts[0]);
 				    list2.add(parts[1]);
-				    System.out.println("url="+parts[0]+" text="+parts[1]);
+				    if(command==1)System.out.println("url="+parts[0]+" text="+parts[1]);
 		    	}else {
 //		    		false
 		    		parts[0] = parts[0].substring(0, parts[0].indexOf('"'));
 		    		list1.add(parts[0]);
 				    list2.add(parts[1]);
-				    System.out.println("url="+parts[0]+" text="+parts[1]);
+				    if(command==1)System.out.println("url="+parts[0]+" text="+parts[1]);
 		    	}
 			    
 		    }
@@ -120,7 +125,19 @@ public List<String> command2(String baru) {
 		return list1;
 
 	}
-	
+
+	public void command3(List<String> list) throws IOException {
+		
+        for(int i=0;i<list.size();i++){
+        	File f = new File("src/hasil/file"+i+".html");
+            BufferedWriter bw = new BufferedWriter(new FileWriter(f));
+            bw.write(command1(list.get(i)));
+            bw.close();
+ 
+        } 
+        
+        
+	}
 	
 	
 }
