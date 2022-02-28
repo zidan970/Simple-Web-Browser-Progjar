@@ -46,7 +46,10 @@ public class socket {
 			String[] arrOfStr = resp.split("a>");
 			String tmp="";
 			String tmp1="";
+
+            // link
 			List<String> list1 = new ArrayList<>();
+            // judul
 			List<String> list2 = new ArrayList<>();
 			
 			int x=0;
