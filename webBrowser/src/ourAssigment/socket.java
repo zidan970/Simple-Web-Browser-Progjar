@@ -37,7 +37,8 @@ public class socket {
 			// step 3: exchange messages
 			System.out.println("l");
 			String URUR="GET /"+Subdomain+" HTTP/1.1\r\nHost: "+Domain+"\r\n\r\n";
-			bos.write("GET /index.php/berita/lihatberita HTTP/1.1\r\nHost: monta.if.its.ac.id\r\n\r\n".getBytes());
+			bos.write(URUR.getBytes());
+//			bos.write("GET /index.php/berita/lihatberita HTTP/1.1\r\nHost: monta.if.its.ac.id\r\n\r\n".getBytes());
 			bos.flush();
 			System.out.println("2");
 
@@ -77,6 +78,7 @@ public class socket {
 public List<String> command2(String baru,int command) {
 		
 		String[] arrOfStr = baru.split("a>");
+		String[] tmpSplit;
 		String tmp="";
 		String tmp1="";
 		List<String> list1 = new ArrayList<>();
@@ -95,8 +97,12 @@ public List<String> command2(String baru,int command) {
 		    if(tmp1.charAt(tmp1.length()-1)=='>' | tmp1.charAt(tmp1.length()-1)==' ') {
 		    	tmp1 = tmp1.substring(tmp1.indexOf("<a")+1);
 		    	tmp1 = tmp1.substring(0, tmp1.indexOf(">")+1);
+		    	
+		    	tmp1 = tmp1.substring(0, tmp1.indexOf('"')+1);
+//		    	String[] arrOfStr1 = tmp1.split(""+'"', 1);
+//		    	tmp1=arrOfStr1[0];
 		    	tmp1=tmp1.replace('"', ' ');
-		    	tmp1=tmp1.replace('>', ' ');
+//		    	tmp1=tmp1.replace('>', ' ');
 		    	list1.add(tmp1);
 			    list2.add("empty....");
 			    if(command==1)System.out.println("url="+tmp1+" text="+"empty....");
@@ -126,12 +132,17 @@ public List<String> command2(String baru,int command) {
 
 	}
 
-	public void command3(List<String> list) throws IOException {
+	public void command3(List<String> list1,List<String> list) throws IOException {
 		
         for(int i=0;i<list.size();i++){
         	File f = new File("src/hasil/file"+i+".html");
+        	Domain=list1.get(i);
             BufferedWriter bw = new BufferedWriter(new FileWriter(f));
-            bw.write(command1(list.get(i)));
+            String text=command1(list.get(i));
+            if(text==null)continue;
+            text = text.substring(text.indexOf("<!")+2);
+//            System.out.println("<!"+text);
+            bw.write("<!"+text);
             bw.close();
  
         } 
@@ -139,6 +150,29 @@ public List<String> command2(String baru,int command) {
         
 	}
 	
-	
-}
+	public void command5(List<String> list1,List<String> list) throws IOException {
+        for(int i=0;i<list.size();i++){
+        	Domain=list1.get(i);
+            String text=command1(list.get(i));
+            if(text==null)continue;
+            text = text.substring(text.indexOf(" ")+1);
+            text = text.substring(0, text.indexOf("Date"));
+            System.out.println("HTTP Message:"+text+"URL="+Domain+"/"+Subdomain);
+        } 
+	}
+	public void command6(List<String> list) throws IOException {
+        for(int i=0;i<list.size();i++){
+            String text=command1(list.get(i));
+            if(text==null)continue;
+            text = text.substring(text.indexOf(" ")+1);
+            text = text.substring(0, text.indexOf("Date"));
+            
+            if(text.indexOf("401")>=0) {
+            	System.out.println("HTTP Message:"+text+"URL="+Domain+"/"+Subdomain);
+            	System.out.println(command1(list.get(i)));
+            }
+            	
+        } 
+	}
 
+}
