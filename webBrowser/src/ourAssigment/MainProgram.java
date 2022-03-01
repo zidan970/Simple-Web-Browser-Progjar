@@ -1,6 +1,11 @@
 package ourAssigment;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -8,6 +13,30 @@ import java.util.Scanner;
 import ourAssigment.socket;
 
 public class MainProgram {
+	public static URL getFinalURL(URL url) {
+	    try {
+	        HttpURLConnection con = (HttpURLConnection) url.openConnection();
+	        con.setInstanceFollowRedirects(false);
+	        con.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/62.0.3202.94 Safari/537.36");
+	        con.addRequestProperty("Accept-Language", "en-US,en;q=0.8");
+	        con.addRequestProperty("Referer", "https://www.google.com/");
+	        con.connect();
+	        //con.getInputStream();
+	        int resCode = con.getResponseCode();
+	        if (resCode == HttpURLConnection.HTTP_SEE_OTHER
+	                || resCode == HttpURLConnection.HTTP_MOVED_PERM
+	                || resCode == HttpURLConnection.HTTP_MOVED_TEMP) {
+	            String Location = con.getHeaderField("Location");
+	            if (Location.startsWith("/")) {
+	                Location = url.getProtocol() + "://" + url.getHost() + Location;
+	            }
+	            return getFinalURL(new URL(Location));
+	        }
+	    } catch (Exception e) {
+	        System.out.println(e.getMessage());
+	    }
+	    return url;
+	}
 	
 	public static List<String> divide(String text) {
 		int x=0;
@@ -24,7 +53,7 @@ public class MainProgram {
 		
 	}
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 		String domain=null;
 	    String subdomain = null;
 	    socket Socket;
@@ -34,8 +63,9 @@ public class MainProgram {
 		System.out.println("1.Open a web page given uri and show the text");
 		System.out.println("2.Show a list clickable link");
 		System.out.println("3.Download File regardless a size");
-		System.out.println("5.Show respective HTTP error message");
-		System.out.println("6.Open a web page is protected by HTTP Basic authentication");
+		System.out.println("5.follow redirections");
+		System.out.println("6.Show respective HTTP error message");
+		System.out.println("7.Open a web page is protected by HTTP Basic authentication");
 		
 		Scanner myObj = new Scanner(System.in);  // Create a Scanner object
 		int x=0;
@@ -55,8 +85,6 @@ public class MainProgram {
 		      Socket=new socket(domain,subdomain);
 		      String haha=Socket.command1(subdomain);
 		      System.out.println(haha);
-		      
-		      
 		      break;
 		    case "2":
 		      Socket=new socket(domain,subdomain);
@@ -95,6 +123,20 @@ public class MainProgram {
 			      break;
 		    case "5":
 		    	  Socket=new socket(domain,subdomain);
+			      String redirect=Socket.command1(subdomain);
+			      redirect = redirect.substring(redirect.indexOf(" ")+1);
+			      redirect = redirect.substring(0, redirect.indexOf("content-type"));
+			      if(redirect.indexOf("301")>=0|redirect.indexOf("302")>=0|redirect.indexOf("303")>=0) {
+			    	  redirect=Socket.command1(subdomain);
+			    	  redirect = redirect.substring(redirect.indexOf("location: ") + 10);
+			    	  redirect = redirect.substring(0, redirect.indexOf("\n"));
+			    	  domain=divide(redirect).get(0);
+				      subdomain=divide(redirect).get(1);
+				      Socket.command5(domain,subdomain);
+			      }
+		    	  break;
+		    case "6":
+		    	  Socket=new socket(domain,subdomain);
 			      String case5=Socket.command1(subdomain);
 			      List<String> list5=Socket.command2(case5,0);
 			      List<String> tmpNew51=new ArrayList<>();
@@ -109,14 +151,14 @@ public class MainProgram {
 			    	    
 			      }
 			      try {
-					Socket.command5(tmpNew51,tmpNew52);
+					Socket.command6(tmpNew51,tmpNew52);
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 		    	  break;
 		      // code block
-		    case "6":
+		    case "7":
 		    	 Socket=new socket(domain,subdomain);
 			      String case6=Socket.command1(subdomain);
 			      List<String> list6=Socket.command2(case6,0);
@@ -132,7 +174,7 @@ public class MainProgram {
 			    	    
 			      }
 			      try {
-					Socket.command6(tmpNew61,tmpNew62);
+					Socket.command7(tmpNew61,tmpNew62);
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -140,11 +182,12 @@ public class MainProgram {
 		    	  break;
 		      // code block
 		    case "test":
-		    	 Socket=new socket(domain,subdomain);
-			     String hahi=Socket.command1(subdomain);
-			     hahi = hahi.substring(hahi.indexOf(" ")+1);
-			     hahi = hahi.substring(0, hahi.indexOf("Date"));
-			     System.out.println(hahi);
+		    	System.out.println(getFinalURL(new URL("http://monta.if.its.ac.id/index.php/berita/detailBerita/257")).toString());
+//		    	 Socket=new socket(domain,subdomain);
+//			     String hahi=Socket.command1(subdomain);
+//			     hahi = hahi.substring(hahi.indexOf(" ")+1);
+//			     hahi = hahi.substring(0, hahi.indexOf("Date"));
+//			     System.out.println(hahi);
 		    default:
 		  }
 //end

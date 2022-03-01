@@ -134,23 +134,37 @@ public List<String> command2(String baru,int command) {
 
 	public void command3(List<String> list1,List<String> list) throws IOException {
 		
+		String newlist;
         for(int i=0;i<list.size();i++){
-        	File f = new File("src/hasil/file"+i+".html");
-        	Domain=list1.get(i);
+        	if(list.get(i).indexOf(".pdf")>=1|list.get(i).indexOf(".jpg")>=1) ;
+        	else continue;
+        	
+        	newlist=list.get(i);
+        	String newlist1=newlist;
+        	newlist1 =newlist1.substring(newlist1.indexOf('.'));
+        	File f = new File("src/hasil/file"+i+newlist1);
             BufferedWriter bw = new BufferedWriter(new FileWriter(f));
-            String text=command1(list.get(i));
+      
+            newlist =newlist.substring(0, newlist.indexOf(' '));
+            String text=command1(newlist);
             if(text==null)continue;
-            text = text.substring(text.indexOf("<!")+2);
-//            System.out.println("<!"+text);
-            bw.write("<!"+text);
+//            text = text.substring(text.indexOf("%")+2);
+            bw.write(text);
             bw.close();
+            
  
         } 
         
         
 	}
+	public void command5(String list1,String list) throws IOException {
+        	Domain=list1;
+            String text=command1(list);
+            System.out.println(text);
+         
+	}
 	
-	public void command5(List<String> list1,List<String> list) throws IOException {
+	public void command6(List<String> list1,List<String> list) throws IOException {
         for(int i=0;i<list.size();i++){
         	Domain=list1.get(i);
             String text=command1(list.get(i));
@@ -161,7 +175,7 @@ public List<String> command2(String baru,int command) {
             System.out.println("HTTP Message:"+text+"URL="+Domain+"/"+Subdomain);
         } 
 	}
-	public void command6(List<String> list1,List<String> list) throws IOException {
+	public void command7(List<String> list1,List<String> list) throws IOException {
         for(int i=0;i<list.size();i++){
         	Domain=list1.get(i);
             String text=command1(list.get(i));
