@@ -155,15 +155,18 @@ public List<String> command2(String baru,int command) {
         	Domain=list1.get(i);
             String text=command1(list.get(i));
             if(text==null)continue;
+            if(text.indexOf("Date")<0)continue;
             text = text.substring(text.indexOf(" ")+1);
             text = text.substring(0, text.indexOf("Date"));
             System.out.println("HTTP Message:"+text+"URL="+Domain+"/"+Subdomain);
         } 
 	}
-	public void command6(List<String> list) throws IOException {
+	public void command6(List<String> list1,List<String> list) throws IOException {
         for(int i=0;i<list.size();i++){
+        	Domain=list1.get(i);
             String text=command1(list.get(i));
             if(text==null)continue;
+            if(text.indexOf("Date")<0)continue;
             text = text.substring(text.indexOf(" ")+1);
             text = text.substring(0, text.indexOf("Date"));
             
@@ -174,5 +177,6 @@ public List<String> command2(String baru,int command) {
             	
         } 
 	}
+	
 
 }

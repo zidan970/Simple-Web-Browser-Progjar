@@ -120,16 +120,19 @@ public class MainProgram {
 		    	 Socket=new socket(domain,subdomain);
 			      String case6=Socket.command1(subdomain);
 			      List<String> list6=Socket.command2(case6,0);
-			      List<String> tmp6=new ArrayList<>();
+			      List<String> tmpNew61=new ArrayList<>();
+			      List<String> tmpNew62=new ArrayList<>();
 			      
 			      for(int i=0;i<list6.size();i++){
 			    	    if(list6.get(i).length()<domain.length())continue;
-			    	    String tmp1=divide(list6.get(i)).get(1);
-			    	    tmp6.add(tmp1);
+			    	    String tmp1=divide(list6.get(i)).get(0);
+			    	    String tmp2=divide(list6.get(i)).get(1);
+			    	    tmpNew61.add(tmp1);
+			    	    tmpNew62.add(tmp2);
 			    	    
 			      }
 			      try {
-					Socket.command6(tmp6);
+					Socket.command6(tmpNew61,tmpNew62);
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
