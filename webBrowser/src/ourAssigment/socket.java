@@ -155,32 +155,8 @@ public List<String> command2(String baru,int command) {
          
 	}
 	
-	public void command6(List<String> list1,List<String> list) throws IOException {
-        for(int i=0;i<list.size();i++){
-        	MyUrl=list1.get(i);
-            String text=command1(list.get(i));
-            if(text==null)continue;
-            if(text.indexOf("Date")<0)continue;
-            text = text.substring(text.indexOf(" ")+1);
-            text = text.substring(0, text.indexOf("Date"));
-            System.out.println("HTTP Message:"+text+"URL="+MyUrl+"/"+MyUrn);
-        } 
-	}
 	public void command7(List<String> list1,List<String> list) throws IOException {
-        for(int i=0;i<list.size();i++){
-        	MyUrl=list1.get(i);
-            String text=command1(list.get(i));
-            if(text==null)continue;
-            if(text.indexOf("Date")<0)continue;
-            text = text.substring(text.indexOf(" ")+1);
-            text = text.substring(0, text.indexOf("Date"));
-            
-            if(text.indexOf("401")>=0) {
-            	System.out.println("HTTP Message:"+text+"URL="+MyUrl+"/"+MyUrn);
-            	System.out.println(command1(list.get(i)));
-            }
-            	
-        } 
+        
 	}
 	
 
