@@ -140,24 +140,39 @@ public class MainProgram {
 		    case "6":
 		    	  Socket=new socket(Myurl,subMyurl);
 			      String case5=Socket.command1(subMyurl);
-			      List<String> list5=Socket.command2(case5,0);
-			      List<String> tmpNew51=new ArrayList<>();
-			      List<String> tmpNew52=new ArrayList<>();
-			      
-			      for(int i=0;i<list5.size();i++){
-			    	    if(list5.get(i).length()<Myurl.length())continue;
-			    	    String tmp1=divide(list5.get(i)).get(0);
-			    	    tmpNew51.add(tmp1);
-			    	    String tmp2=divide(list5.get(i)).get(1);
-			    	    tmpNew52.add(tmp2);
-			    	    
+			      case5 = case5.substring(case5.indexOf(" ")+1);
+			      case5 = case5.substring(0,3);
+//			      System.out.print(case5);
+			      if(case5.indexOf("400")>=0) {
+			    	  System.out.print("Bad Request");
 			      }
-			      try {
-					Socket.command6(tmpNew51,tmpNew52);
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+			      else if(case5.indexOf("401")>=0) {
+			    	  System.out.print("Unauthorized");
+			      }
+			      else if(case5.indexOf("402")>=0) {
+			    	  System.out.print("Payment Required ");
+			      }
+			      else if(case5.indexOf("403")>=0) {
+			    	  System.out.print("Forbidden");
+			      }
+			      else if(case5.indexOf("404")>=0) {
+			    	  System.out.println("Page Not Found");
+			      }
+			      else if(case5.indexOf("500")>=0) {
+			    	  System.out.print("Not Implemented");
+			      }
+			      else if(case5.indexOf("501")>=0) {
+			    	  System.out.print("Not Implemented");
+			      }
+			      else if(case5.indexOf("502")>=0) {
+			    	  System.out.print("Bad Gateway");
+			      }
+			      else if(case5.indexOf("503")>=0) {
+			    	  System.out.print("Service Unavailable");
+			      }
+			      else if(case5.indexOf("504")>=0) {
+			    	  System.out.print("Gateway Timeout");
+			      }
 		    	  break;
 		      // code block
 		    case "7":
