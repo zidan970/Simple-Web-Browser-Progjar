@@ -54,8 +54,8 @@ public class MainProgram {
 	}
 	
 	public static void main(String[] args) throws IOException {
-		String domain=null;
-	    String subdomain = null;
+		String Myurl=null;
+	    String subMyurl = null;
 	    socket Socket;
 	    
 	      
@@ -66,14 +66,15 @@ public class MainProgram {
 		System.out.println("5.follow redirections");
 		System.out.println("6.Show respective HTTP error message");
 		System.out.println("7.Open a web page is protected by HTTP Basic authentication");
+		System.out.println("8.can access a web page that is protected behind a login page");
 		
 		Scanner myObj = new Scanner(System.in);  // Create a Scanner object
 		int x=0;
 	      System.out.print("Link:");
 //	      Link:https://monta.if.its.ac.id/index.php/berita/lihatberita
 	      String yourUri = myObj.nextLine();
-	      domain=divide(yourUri).get(0);
-	      subdomain=divide(yourUri).get(1);
+	      Myurl=divide(yourUri).get(0);
+	      subMyurl=divide(yourUri).get(1);
 	      
 		
 		for(;;) {
@@ -82,13 +83,13 @@ public class MainProgram {
 		    String choice = myObj.nextLine();  // Read user input
 		    switch(choice) {
 		    case "1":
-		      Socket=new socket(domain,subdomain);
-		      String haha=Socket.command1(subdomain);
+		      Socket=new socket(Myurl,subMyurl);
+		      String haha=Socket.command1(subMyurl);
 		      System.out.println(haha);
 		      break;
 		    case "2":
-		      Socket=new socket(domain,subdomain);
-		      String baru=Socket.command1(subdomain);
+		      Socket=new socket(Myurl,subMyurl);
+		      String baru=Socket.command1(subMyurl);
 		      List<String> list4=Socket.command2(baru,1);
 //		      for(int i=0;i<list4.size();i++){
 //		    	    System.out.println(list4.get(i));
@@ -96,14 +97,14 @@ public class MainProgram {
 		      // code block
 		      break;
 		    case "3":
-			      Socket=new socket(domain,subdomain);
-			      String baru1=Socket.command1(subdomain);
+			      Socket=new socket(Myurl,subMyurl);
+			      String baru1=Socket.command1(subMyurl);
 			      List<String> list3=Socket.command2(baru1,0);
 			      List<String> tmpNew1=new ArrayList<>();
 			      List<String> tmpNew2=new ArrayList<>();
 			      
 			      for(int i=0;i<list3.size();i++){
-			    	    if(list3.get(i).length()<domain.length())continue;
+			    	    if(list3.get(i).length()<Myurl.length())continue;
 			    	    String tmp1=divide(list3.get(i)).get(0);
 			    	    String tmp2=divide(list3.get(i)).get(1);
 			    	    tmpNew1.add(tmp1);
@@ -122,33 +123,29 @@ public class MainProgram {
 			      // code block
 			      break;
 		    case "5":
-		    	  Socket=new socket(domain,subdomain);
-			      String redirect=Socket.command1(subdomain);
-			      if(redirect.indexOf("Refresh: 0;url=")>=0)redirect = redirect.substring(redirect.indexOf("Refresh: 0;url=")+15);
-			      String[] redirect1 = redirect.split("Content");
-			      domain=divide(redirect1[0]).get(0);
-			      subdomain=divide(redirect1[0]).get(1);
-			      Socket.command5(domain, subdomain);
-			     
+		    	  Socket=new socket(Myurl,subMyurl);
+			      String redirect=Socket.command1(subMyurl);
+			      if(redirect.indexOf("Refresh: 0;url=")>=0) {
+			    	  
 			      
-//			      if(redirect.indexOf("301")>=0|redirect.indexOf("302")>=0|redirect.indexOf("303")>=0) {
-//			    	  redirect=Socket.command1(subdomain);
-//			    	  redirect = redirect.substring(redirect.indexOf("location: ") + 10);
-//			    	  redirect = redirect.substring(0, redirect.indexOf("\n"));
-//			    	  domain=divide(redirect).get(0);
-//				      subdomain=divide(redirect).get(1);
-//				      Socket.command5(domain,subdomain);
-//			      }
+			      redirect = redirect.substring(redirect.indexOf("Refresh: 0;url=")+15);
+			      String[] redirect1 = redirect.split("Content");
+			      Myurl=divide(redirect1[0]).get(0);
+			      subMyurl=divide(redirect1[0]).get(1);
+			      Socket.command5(Myurl, subMyurl);
+			      }else  System.out.println("nothing redirect url");
+			     
+			   
 		    	  break;
 		    case "6":
-		    	  Socket=new socket(domain,subdomain);
-			      String case5=Socket.command1(subdomain);
+		    	  Socket=new socket(Myurl,subMyurl);
+			      String case5=Socket.command1(subMyurl);
 			      List<String> list5=Socket.command2(case5,0);
 			      List<String> tmpNew51=new ArrayList<>();
 			      List<String> tmpNew52=new ArrayList<>();
 			      
 			      for(int i=0;i<list5.size();i++){
-			    	    if(list5.get(i).length()<domain.length())continue;
+			    	    if(list5.get(i).length()<Myurl.length())continue;
 			    	    String tmp1=divide(list5.get(i)).get(0);
 			    	    tmpNew51.add(tmp1);
 			    	    String tmp2=divide(list5.get(i)).get(1);
@@ -164,14 +161,14 @@ public class MainProgram {
 		    	  break;
 		      // code block
 		    case "7":
-		    	 Socket=new socket(domain,subdomain);
-			      String case6=Socket.command1(subdomain);
+		    	 Socket=new socket(Myurl,subMyurl);
+			      String case6=Socket.command1(subMyurl);
 			      List<String> list6=Socket.command2(case6,0);
 			      List<String> tmpNew61=new ArrayList<>();
 			      List<String> tmpNew62=new ArrayList<>();
 			      
 			      for(int i=0;i<list6.size();i++){
-			    	    if(list6.get(i).length()<domain.length())continue;
+			    	    if(list6.get(i).length()<Myurl.length())continue;
 			    	    String tmp1=divide(list6.get(i)).get(0);
 			    	    String tmp2=divide(list6.get(i)).get(1);
 			    	    tmpNew61.add(tmp1);
@@ -188,8 +185,8 @@ public class MainProgram {
 		      // code block
 		    case "test":
 		    	System.out.println(getFinalURL(new URL("http://monta.if.its.ac.id/index.php/berita/detailBerita/257")).toString());
-//		    	 Socket=new socket(domain,subdomain);
-//			     String hahi=Socket.command1(subdomain);
+//		    	 Socket=new socket(Myurl,subMyurl);
+//			     String hahi=Socket.command1(subMyurl);
 //			     hahi = hahi.substring(hahi.indexOf(" ")+1);
 //			     hahi = hahi.substring(0, hahi.indexOf("Date"));
 //			     System.out.println(hahi);

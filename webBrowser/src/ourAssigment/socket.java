@@ -13,26 +13,26 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class socket {
-	String Domain,Subdomain;
+	String MyUrl,MyUrn;
 	String htmlContain=null;
 	
-	public socket(String domain,String subdomain) {
-		Domain=domain;
-		Subdomain=subdomain;
+	public socket(String myUrl,String myUrn) {
+		MyUrl=myUrl;
+		MyUrn=myUrn;
 	}
 	
 	
 	
-	public String command1(String subdomain) {
+	public String command1(String myUrn) {
 		try {
-			Subdomain=subdomain;
-//			System.out.println(Subdomain);
+			MyUrn=myUrn;
+//			System.out.println(MyUrn);
 
-			Socket socket = new Socket (Domain, 80);
+			Socket socket = new Socket (MyUrl, 80);
 			BufferedInputStream bis = new BufferedInputStream (socket.getInputStream());
 			BufferedOutputStream bos = new BufferedOutputStream (socket.getOutputStream());
 			System.out.println("loading...");
-			String URUR="GET /"+Subdomain+" HTTP/1.1\r\nHost: "+Domain+"\r\n\r\n";
+			String URUR="GET /"+MyUrn+" HTTP/1.1\r\nHost: "+MyUrl+"\r\n\r\n";
 			bos.write(URUR.getBytes());
 			bos.flush();
 			int bufferSize = 100;
@@ -143,9 +143,7 @@ public List<String> command2(String baru,int command) {
         
 	}
 	public void command5(String list1,String list) throws IOException {
-        	Domain=list1;
-        	System.out.println("Domain:"+Domain);
-        	System.out.println("list:"+list);
+        	MyUrl=list1;
         	try {
 				TimeUnit.SECONDS.sleep(20);
 			} catch (InterruptedException e) {
@@ -159,18 +157,18 @@ public List<String> command2(String baru,int command) {
 	
 	public void command6(List<String> list1,List<String> list) throws IOException {
         for(int i=0;i<list.size();i++){
-        	Domain=list1.get(i);
+        	MyUrl=list1.get(i);
             String text=command1(list.get(i));
             if(text==null)continue;
             if(text.indexOf("Date")<0)continue;
             text = text.substring(text.indexOf(" ")+1);
             text = text.substring(0, text.indexOf("Date"));
-            System.out.println("HTTP Message:"+text+"URL="+Domain+"/"+Subdomain);
+            System.out.println("HTTP Message:"+text+"URL="+MyUrl+"/"+MyUrn);
         } 
 	}
 	public void command7(List<String> list1,List<String> list) throws IOException {
         for(int i=0;i<list.size();i++){
-        	Domain=list1.get(i);
+        	MyUrl=list1.get(i);
             String text=command1(list.get(i));
             if(text==null)continue;
             if(text.indexOf("Date")<0)continue;
@@ -178,7 +176,7 @@ public List<String> command2(String baru,int command) {
             text = text.substring(0, text.indexOf("Date"));
             
             if(text.indexOf("401")>=0) {
-            	System.out.println("HTTP Message:"+text+"URL="+Domain+"/"+Subdomain);
+            	System.out.println("HTTP Message:"+text+"URL="+MyUrl+"/"+MyUrn);
             	System.out.println(command1(list.get(i)));
             }
             	
