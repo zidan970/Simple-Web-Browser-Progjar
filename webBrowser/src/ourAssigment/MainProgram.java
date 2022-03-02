@@ -13,30 +13,7 @@ import java.util.Scanner;
 import ourAssigment.socket;
 
 public class MainProgram {
-	public static URL getFinalURL(URL url) {
-	    try {
-	        HttpURLConnection con = (HttpURLConnection) url.openConnection();
-	        con.setInstanceFollowRedirects(false);
-	        con.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/62.0.3202.94 Safari/537.36");
-	        con.addRequestProperty("Accept-Language", "en-US,en;q=0.8");
-	        con.addRequestProperty("Referer", "https://www.google.com/");
-	        con.connect();
-	        //con.getInputStream();
-	        int resCode = con.getResponseCode();
-	        if (resCode == HttpURLConnection.HTTP_SEE_OTHER
-	                || resCode == HttpURLConnection.HTTP_MOVED_PERM
-	                || resCode == HttpURLConnection.HTTP_MOVED_TEMP) {
-	            String Location = con.getHeaderField("Location");
-	            if (Location.startsWith("/")) {
-	                Location = url.getProtocol() + "://" + url.getHost() + Location;
-	            }
-	            return getFinalURL(new URL(Location));
-	        }
-	    } catch (Exception e) {
-	        System.out.println(e.getMessage());
-	    }
-	    return url;
-	}
+	
 	
 	public static List<String> divide(String text) {
 		int x=0;
@@ -178,33 +155,11 @@ public class MainProgram {
 		    case "7":
 		    	 Socket=new socket(Myurl,subMyurl);
 			      String case6=Socket.command1(subMyurl);
-			      List<String> list6=Socket.command2(case6,0);
-			      List<String> tmpNew61=new ArrayList<>();
-			      List<String> tmpNew62=new ArrayList<>();
-			      
-			      for(int i=0;i<list6.size();i++){
-			    	    if(list6.get(i).length()<Myurl.length())continue;
-			    	    String tmp1=divide(list6.get(i)).get(0);
-			    	    String tmp2=divide(list6.get(i)).get(1);
-			    	    tmpNew61.add(tmp1);
-			    	    tmpNew62.add(tmp2);
-			    	    
-			      }
-			      try {
-					Socket.command7(tmpNew61,tmpNew62);
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+			      System.out.println(case6); 
+			     
 		    	  break;
 		      // code block
-		    case "test":
-		    	System.out.println(getFinalURL(new URL("http://monta.if.its.ac.id/index.php/berita/detailBerita/257")).toString());
-//		    	 Socket=new socket(Myurl,subMyurl);
-//			     String hahi=Socket.command1(subMyurl);
-//			     hahi = hahi.substring(hahi.indexOf(" ")+1);
-//			     hahi = hahi.substring(0, hahi.indexOf("Date"));
-//			     System.out.println(hahi);
+		    
 		    default:
 		  }
 //end
