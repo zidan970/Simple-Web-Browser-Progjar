@@ -10,6 +10,7 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class socket {
 	String Domain,Subdomain;
@@ -25,28 +26,18 @@ public class socket {
 	public String command1(String subdomain) {
 		try {
 			Subdomain=subdomain;
-			System.out.println(Subdomain);
+//			System.out.println(Subdomain);
 
 			Socket socket = new Socket (Domain, 80);
-
-			// step 2: obtain the input and output streams
 			BufferedInputStream bis = new BufferedInputStream (socket.getInputStream());
-/*2*/			//DataInputStream dis = new DataInputStream (socket.getInputStream());
 			BufferedOutputStream bos = new BufferedOutputStream (socket.getOutputStream());
-
-			// step 3: exchange messages
-			System.out.println("l");
+			System.out.println("loading...");
 			String URUR="GET /"+Subdomain+" HTTP/1.1\r\nHost: "+Domain+"\r\n\r\n";
 			bos.write(URUR.getBytes());
-//			bos.write("GET /index.php/berita/lihatberita HTTP/1.1\r\nHost: monta.if.its.ac.id\r\n\r\n".getBytes());
 			bos.flush();
-			System.out.println("2");
-
 			int bufferSize = 100;
 			byte[] bResp = new byte[bufferSize];
 			int c = bis.read(bResp);
-/*2*/			//String resp = dis.readLine();
-//			resp.split(" ");
 			String resp="";
 
 			while(c!=-1)
@@ -54,12 +45,8 @@ public class socket {
 			    resp += (new String(bResp));
 			    c = bis.read(bResp);
 			}
-
-			System.out.println("3");
-/*1*/		//System.out.println(resp);
+			System.out.println("end...");
 			return resp;
-
-			
 
 			
 		} catch (UnknownHostException e) {
@@ -126,8 +113,6 @@ public List<String> command2(String baru,int command) {
 		    }
 		    	
 	    }
-		System.out.println("4");
-		System.out.println("5");
 		return list1;
 
 	}
@@ -159,6 +144,14 @@ public List<String> command2(String baru,int command) {
 	}
 	public void command5(String list1,String list) throws IOException {
         	Domain=list1;
+        	System.out.println("Domain:"+Domain);
+        	System.out.println("list:"+list);
+        	try {
+				TimeUnit.SECONDS.sleep(20);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
             String text=command1(list);
             System.out.println(text);
          

@@ -124,16 +124,21 @@ public class MainProgram {
 		    case "5":
 		    	  Socket=new socket(domain,subdomain);
 			      String redirect=Socket.command1(subdomain);
-			      redirect = redirect.substring(redirect.indexOf(" ")+1);
-			      redirect = redirect.substring(0, redirect.indexOf("content-type"));
-			      if(redirect.indexOf("301")>=0|redirect.indexOf("302")>=0|redirect.indexOf("303")>=0) {
-			    	  redirect=Socket.command1(subdomain);
-			    	  redirect = redirect.substring(redirect.indexOf("location: ") + 10);
-			    	  redirect = redirect.substring(0, redirect.indexOf("\n"));
-			    	  domain=divide(redirect).get(0);
-				      subdomain=divide(redirect).get(1);
-				      Socket.command5(domain,subdomain);
-			      }
+			      if(redirect.indexOf("Refresh: 0;url=")>=0)redirect = redirect.substring(redirect.indexOf("Refresh: 0;url=")+15);
+			      String[] redirect1 = redirect.split("Content");
+			      domain=divide(redirect1[0]).get(0);
+			      subdomain=divide(redirect1[0]).get(1);
+			      Socket.command5(domain, subdomain);
+			     
+			      
+//			      if(redirect.indexOf("301")>=0|redirect.indexOf("302")>=0|redirect.indexOf("303")>=0) {
+//			    	  redirect=Socket.command1(subdomain);
+//			    	  redirect = redirect.substring(redirect.indexOf("location: ") + 10);
+//			    	  redirect = redirect.substring(0, redirect.indexOf("\n"));
+//			    	  domain=divide(redirect).get(0);
+//				      subdomain=divide(redirect).get(1);
+//				      Socket.command5(domain,subdomain);
+//			      }
 		    	  break;
 		    case "6":
 		    	  Socket=new socket(domain,subdomain);
