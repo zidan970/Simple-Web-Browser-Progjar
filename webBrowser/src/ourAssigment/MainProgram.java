@@ -121,34 +121,34 @@ public class MainProgram {
 			      case5 = case5.substring(0,3);
 //			      System.out.print(case5);
 			      if(case5.indexOf("400")>=0) {
-			    	  System.out.print("Bad Request");
+			    	  System.out.println("Bad Request");
 			      }
 			      else if(case5.indexOf("401")>=0) {
-			    	  System.out.print("Unauthorized");
+			    	  System.out.println("Unauthorized");
 			      }
 			      else if(case5.indexOf("402")>=0) {
-			    	  System.out.print("Payment Required ");
+			    	  System.out.println("Payment Required ");
 			      }
 			      else if(case5.indexOf("403")>=0) {
-			    	  System.out.print("Forbidden");
+			    	  System.out.println("Forbidden");
 			      }
 			      else if(case5.indexOf("404")>=0) {
 			    	  System.out.println("Page Not Found");
 			      }
 			      else if(case5.indexOf("500")>=0) {
-			    	  System.out.print("Not Implemented");
+			    	  System.out.println("Not Implemented");
 			      }
 			      else if(case5.indexOf("501")>=0) {
-			    	  System.out.print("Not Implemented");
+			    	  System.out.println("Not Implemented");
 			      }
 			      else if(case5.indexOf("502")>=0) {
-			    	  System.out.print("Bad Gateway");
+			    	  System.out.println("Bad Gateway");
 			      }
 			      else if(case5.indexOf("503")>=0) {
-			    	  System.out.print("Service Unavailable");
+			    	  System.out.println("Service Unavailable");
 			      }
 			      else if(case5.indexOf("504")>=0) {
-			    	  System.out.print("Gateway Timeout");
+			    	  System.out.println("Gateway Timeout");
 			      }
 		    	  break;
 		      // code block
